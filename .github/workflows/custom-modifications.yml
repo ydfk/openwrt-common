@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          token: ${{ secrets.REPO_TOKEN }}
 
       - name: Setup Environment
         run: |
@@ -25,9 +25,6 @@ jobs:
         run: |
           # Replace all URLs from 281677160/common to ydfk/openwrt-common
           find . -type f -name "*.sh" -exec sed -i 's|https://raw.githubusercontent.com/281677160/common|https://raw.githubusercontent.com/ydfk/openwrt-common|g' {} \;
-          
-          # Replace URLs in other file types if needed
-          find . -type f -name "*.yml" -exec sed -i 's|https://raw.githubusercontent.com/281677160/common|https://raw.githubusercontent.com/ydfk/openwrt-common|g' {} \;
           
           # Other specific code modifications can be added here
           # For example, if you need to modify common.sh in a specific way:
