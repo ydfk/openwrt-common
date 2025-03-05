@@ -1,0 +1,53 @@
+name: Custom Modifications
+
+on:
+  workflow_dispatch:
+  # This workflow can be manually triggered and also runs before other workflows
+  workflow_call:
+    # Allow it to be called by other workflows
+
+jobs:
+  modify-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Environment
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Repository files:"
+          ls -la
+
+      - name: Replace URLs and Modify Code
+        run: |
+          # Replace all URLs from 281677160/common to ydfk/openwrt-common
+          find . -type f -name "*.sh" -exec sed -i 's|https://raw.githubusercontent.com/281677160/common|https://raw.githubusercontent.com/ydfk/openwrt-common|g' {} \;
+          
+          # Replace URLs in other file types if needed
+          find . -type f -name "*.yml" -exec sed -i 's|https://raw.githubusercontent.com/281677160/common|https://raw.githubusercontent.com/ydfk/openwrt-common|g' {} \;
+          
+          # Other specific code modifications can be added here
+          # For example, if you need to modify common.sh in a specific way:
+          if [ -f "common.sh" ]; then
+            echo "Modifying common.sh with custom changes"
+            sed -i '/function Diy_IMMORTALWRT/,/^}/{ s/^fi$//; }' common.sh
+            # Add your specific changes to common.sh here
+          fi
+          
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Check if there are changes to commit
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Replace URLs and make custom modifications"
+            git push
+            echo "Changes committed and pushed"
+          else
+            echo "No changes to commit"
+          fi
