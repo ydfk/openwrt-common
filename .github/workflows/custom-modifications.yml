@@ -26,12 +26,15 @@ jobs:
           # Replace all URLs from 281677160/common to ydfk/openwrt-common
           find . -type f -name "*.sh" -exec sed -i 's|/281677160/common|/ydfk/openwrt-common|g' {} \;
           
-          # Other specific code modifications can be added here
-          # For example, if you need to modify common.sh in a specific way:
+          # Fix syntax errors in common.sh
           if [ -f "common.sh" ]; then
-            echo "Modifying common.sh with custom changes"
+            echo "Fixing syntax errors in common.sh"
+            # Fix missing 'fi' in LIENOL section
             sed -i '/function Diy_IMMORTALWRT/,/^}/{ s/^fi$//; }' common.sh
-            # Add your specific changes to common.sh here
+            sed -i '/LIENOL)/,/IMMORTALWRT)/s/  elif \[\[ "\${REPO_BRANCH}" == "21\.02" \]\]; then/  elif \[\[ "\${REPO_BRANCH}" == "21\.02" \]\]; then\n    s="luci-app-unblockneteasemusic"\n    c=(\${s//,\/ \/})\n    for i in \${c\[@\]}; do \\\n      find . -type d -name "\${i}" |grep -v '\''freifunk\\|helloworld\\|passwall3'\'' |xargs -i rm -rf {}; \\\n    done\n    fi/g' common.sh
+            sed -i '/LIENOL)/,/IMMORTALWRT)/s/  elif \[\[ "\${REPO_BRANCH}" == "23\.05" \]\]; then/  elif \[\[ "\${REPO_BRANCH}" == "23\.05" \]\]; then\n    s="luci-app-unblockneteasemusic"\n    c=(\${s//,\/ \/})\n    for i in \${c\[@\]}; do \\\n      find . -type d -name "\${i}" |grep -v '\''freifunk\\|helloworld\\|passwall3'\'' |xargs -i rm -rf {}; \\\n    done/g' common.sh
+            sed -i '/OFFICIAL)/,/XWRT)/s/  if \[\[ "\${REPO_BRANCH}" == "openwrt-21\.02" \]\]; then/  if \[\[ "\${REPO_BRANCH}" == "openwrt-21\.02" \]\]; then\n    s="luci-app-vssr,lua-maxminddb,luci-app-natter,natter,luci-app-unblockneteasemusic"\n    c=(\${s//,\/ \/})\n    for i in \${c\[@\]}; do \\\n      find . -type d -name "\${i}" |grep -v '\''freifunk\\|helloworld\\|passwall3'\'' |xargs -i rm -rf {}; \\\n    done\n    if \[\[ -d "\${HOME_PATH}\/build\/common\/Share\/luci-app-samba4" \]\]; then\n      find . -type d -name '\''luci-app-samba4'\'' -o -name '\''samba4'\'' |grep -v '\''Share\\|freifunk\\|helloworld\\|passwall3'\'' | xargs -i rm -rf {}\n      cp -Rf \${HOME_PATH}\/build\/common\/Share\/luci-app-samba4 \${HOME_PATH}\/feeds\/luci\/applications\/luci-app-samba4\n      cp -Rf \${HOME_PATH}\/build\/common\/Share\/samba4 \${HOME_PATH}\/feeds\/packages\/net\/samba4\n      rm -rf \${HOME_PATH}\/feeds\/packages\/libs\/liburing\n      cp -Rf \${HOME_PATH}\/build\/common\/Share\/liburing \${HOME_PATH}\/feeds\/packages\/libs\/liburing\n      rm -rf \${HOME_PATH}\/feeds\/packages\/lang\/perl-parse-yapp\n      cp -Rf \${HOME_PATH}\/build\/common\/Share\/perl-parse-yapp \${HOME_PATH}\/feeds\/packages\/lang\/perl-parse-yapp\n    fi\n    fi/g' common.sh
+            # Other specific changes to common.sh here
           fi
           
       - name: Commit Changes
