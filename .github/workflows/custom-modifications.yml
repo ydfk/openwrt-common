@@ -24,7 +24,7 @@ jobs:
       - name: Replace URLs and Modify Code
         run: |
           # Replace all URLs from 281677160/common to ydfk/openwrt-common
-          find . -type f -name "*.sh" -exec sed -i 's|https://raw.githubusercontent.com/281677160/common|https://raw.githubusercontent.com/ydfk/openwrt-common|g' {} \;
+          find . -type f -name "*.sh" -exec sed -i 's|/281677160/common|/ydfk/openwrt-common|g' {} \;
           
           # Other specific code modifications can be added here
           # For example, if you need to modify common.sh in a specific way:
