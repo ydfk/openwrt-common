@@ -1594,9 +1594,9 @@ fi
 if [[ ! "${weizhicpu}" == "1" ]] && [[ "${AdGuardHome_Core}" == "1" ]]; then
   echo "正在执行：给adguardhome下载核心"
   rm -rf ${HOME_PATH}/AdGuardHome && rm -rf ${HOME_PATH}/files/usr/bin
-  wget -q https://github.com/281677160/common/releases/download/API/AdGuardHome.api -O AdGuardHome.api
+  wget -q https://github.com/ydfk/openwrt-common/releases/download/API/AdGuardHome.api -O AdGuardHome.api
   if [[ $? -ne 0 ]];then
-    curl -fsSL https://github.com/281677160/common/releases/download/API/AdGuardHome.api -o AdGuardHome.api
+    curl -fsSL https://github.com/ydfk/openwrt-common/releases/download/API/AdGuardHome.api -o AdGuardHome.api
   fi
   latest_ver="$(grep -E 'tag_name' 'AdGuardHome.api' |grep -E 'v[0-9.]+' -o 2>/dev/null)"
   rm -rf AdGuardHome.api
@@ -1712,7 +1712,7 @@ export kernel_repo="ophub/kernel"
 [[ -z "${kernel_usage}" ]] && export kernel_usage="stable"
 [[ -z "${UPLOAD_WETRANSFER}" ]] && export UPLOAD_WETRANSFER="true"
 if [[ -z "${amlogic_kernel}" ]]; then
-  curl -fsSL https://github.com/281677160/common/releases/download/API/${kernel_usage}.api -o ${HOME_PATH}/${kernel_usage}.api
+  curl -fsSL https://github.com/ydfk/openwrt-common/releases/download/API/${kernel_usage}.api -o ${HOME_PATH}/${kernel_usage}.api
   export amlogic_kernel="$(grep -Eo '"name": "[0-9]+\.[0-9]+\.[0-9]+\.tar.gz"' ${HOME_PATH}/${kernel_usage}.api |grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" |awk 'END {print}' |sed s/[[:space:]]//g)"
   [[ -z "${amlogic_kernel}" ]] && export amlogic_kernel="5.10.170"
 fi
