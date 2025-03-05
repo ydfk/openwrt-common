@@ -433,6 +433,7 @@ OFFICIAL)
       rm -rf ${HOME_PATH}/feeds/packages/lang/perl-parse-yapp
       cp -Rf ${HOME_PATH}/build/common/Share/perl-parse-yapp ${HOME_PATH}/feeds/packages/lang/perl-parse-yapp
     fi
+  fi
 ;;
 XWRT)
   s="luci-app-wrtbwmon,wrtbwmon,luci-app-dockerman,docker,dockerd,bcm27xx-userland,luci-app-aliyundrive-webdav,aliyundrive-webdav,aliyundrive-fuse"
